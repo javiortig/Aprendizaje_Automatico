@@ -1,0 +1,6 @@
+No hay codigo escrito. Todo a mano.
+
+Un ejercicio con calculadora de K means como
+en los apuntes.
+
+Un ejercicio de asociaciones

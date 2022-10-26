@@ -1,0 +1,96 @@
+---
+title: "Ejercicio_K-means"
+author: "Alexis Gomez Chimeno"
+date: "13/10/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = 'C:/Users/alexg/Documents/Documentos/U-TAD/Curso_4/Cuatrimestre_I/Aprendizaje_Automatico_I/TrabajoEnClase')
+```
+
+```{r}
+rm(list=ls())
+```
+
+```{r}
+library(statip)
+library(dplyr)
+library(moments)
+library(nortest)
+library(MVN)
+library(mvnormtest)
+library(zoo)
+```
+
+```{r}
+dataframe1 <- read.csv2("snsdata.csv",sep=",",dec=".")
+dim(dataframe1)
+#dataframe1 <- na.omit(dataframe1)
+#dim(dataframe1)
+```
+
+```{r}
+head(dataframe1, n=40)
+filter(dataframe1,dataframe1$gradyear==2007)
+```
+
+```{r}
+table(dataframe1$gender, useNA = "ifany")
+```
+```{r}
+summary(dataframe1$age)
+```
+```{r}
+dataframe1$age <- ifelse(dataframe1$age >= 13 & dataframe1$age <= 20, dataframe1$age, NA)
+```
+
+
+```{r}
+exam <- aggregate(age ~ gradyear,data=dataframe1,mean)
+exam
+dataframe1$age <- na.aggregate(dataframe1$age,dataframe1$gradyear)
+summary(dataframe1$age)
+```
+```{r}
+interests <- dataframe1[5:40]
+interests
+interests_norm <- as.data.frame(scale(interests))
+teen_clusters <- kmeans(interests_norm,7)
+```
+
+
+```{r}
+teen_clusters$size
+```
+```{r}
+teen_clusters$centers
+```
+
+```{r}
+trauma <- read.csv2("trauma_data.csv",sep=";",dec=".")
+dim(trauma)
+```
+
+```{r}
+head(trauma)
+```
+```{r}
+table(trauma$age, useNA = "ifany")
+table(trauma$race, useNA = "ifany")
+```
+```{r}
+trauma$age <- ifelse(trauma$age >= 4 & trauma$age <= 16, trauma$age, NA)
+summary(trauma)
+```
+```{r}
+trauma <- na.omit(trauma)
+summary(trauma)
+```
+```{r}
+interests <- trauma[5:40]
+interests_norm <- as.data.frame(scale(interests))
+teen_clusters <- kmeans(interests_norm,7)
+```
+
